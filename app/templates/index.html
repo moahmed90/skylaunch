@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylaunch — Salat Times</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f0c29;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: white;
+            padding: 40px 20px;
+        }
+        h1 { text-align: center; font-size: 2rem; margin-bottom: 8px; }
+        .subtitle { text-align: center; color: #a89bd4; margin-bottom: 40px; }
+        form { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; }
+        input {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            width: 250px;
+        }
+        button {
+            padding: 12px 24px;
+            background: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover { background: #574fd6; }
+        .cards { display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; }
+        .card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 20px 24px;
+            border-left: 4px solid #6c63ff;
+        }
+        .card h2 { font-size: 1.2rem; margin-bottom: 4px; }
+        .time { font-size: 2rem; font-weight: bold; color: #a89bd4; margin-bottom: 8px; }
+        .dua { font-size: 0.9rem; color: #c9c3e8; font-style: italic; }
+        .error { text-align: center; color: #ff6b6b; margin-bottom: 20px; }
+        .heading-area { text-align: center; margin-bottom: 10px; font-size: 1.1rem; color: #a89bd4; }
+    </style>
+</head>
+<body>
+    <h1>🕌 Skylaunch</h1>
+    <p class="subtitle">Daily Salat Times & Duas</p>
+
+    <form method="POST">
+        <input type="text" name="city" placeholder="Enter your city..." value="{{ city or '' }}">
+        <button type="submit">Get Times</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if prayer_times %}
+        <p class="heading-area">Prayer times for <strong>{{ city }}</strong></p>
+        <div class="cards">
+            {% for prayer, time in prayer_times.items() %}
+            <div class="card">
+                <h2>{{ prayer }}</h2>
+                <div class="time">{{ time }}</div>
+                <div class="dua">{{ duas[prayer] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
